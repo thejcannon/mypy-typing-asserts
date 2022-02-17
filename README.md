@@ -10,7 +10,9 @@ assert_type[MyType[tuple[int, ...]]](myobject.attribute)
 
 `mypy-typing-asserts` is supported in `mypy >= 0.700`.
 
-For `pyright` support, use `reveal_type(expression, expected_type=...)`. (See [this discussion](https://github.com/python/typing/discussions/1030#discussioncomment-1988476)). (Supported in version 1.1.211+)
+For similar functionality in `pyright`, use `reveal_type(expression, expected_type=...)`. (See [this discussion](https://github.com/python/typing/discussions/1030#discussioncomment-1988476)). (Supported in version 1.1.211+)
+
+For similar functionality in `pytype`, use `assert_type`. (See [the docs](https://google.github.io/pytype/faq.html#can-i-find-out-what-pytype-thinks-the-type-of-my-expression-is))
 
 ## Installation
 
