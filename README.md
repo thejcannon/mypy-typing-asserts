@@ -8,7 +8,7 @@ assert_type[MyType[tuple[int, ...]]](myobject.attribute)
 
 ## Support
 
-Currently `typing-asserts` is only supported by `mypy >0.900` (via third-party plugin code included with
+Currently `typing-asserts` is only supported by `mypy` (via third-party plugin code included with
 this package). Ideally this would extend to `pyright` and `pyre`, or move into `typing_extensions`
 with enough momentum.
 
@@ -16,7 +16,7 @@ with enough momentum.
 
 `typing-asserts` should be installed in to the same environment as your typechecker.
 
-`typing-asserts` can be installed by running `pip install typing-asserts`.
+It can be installed by running `pip install typing-asserts`.
 
 Alternatively if you're using `poetry`, `poetry add -D typing-asserts`.
 
@@ -48,6 +48,15 @@ if TYPE_CHECKING:
 if TYPE_CHECKING:
     assert_type[MyType](my_expression)
 ```
+
+### Pitfalls
+
+This plugin only gets executed for code that is being typechecked. Dependening on your configuration,
+yopur typechecker might be skipping function bodies (e.g. `mypy` will skip unannotated function bodies
+by default unless `--check-untyped-defs` is enabled).
+
+If you're putting the `assert_type` calls inside a `pytest` test, make sure to annotate the `-> None`
+return type to avoid this!
 
 ### Enabling the `mypy` plugin
 
