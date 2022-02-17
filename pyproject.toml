@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mypy_typing_asserts"
-version = "0.1.1"
+version = "0.1.2"
 description = "Adds the ability to _assert_ types when typechecking to mypy"
 authors = ["Joshua Cannon <joshdcannon@gmail.com>"]
 readme = "README.md"
