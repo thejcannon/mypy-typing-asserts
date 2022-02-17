@@ -1,0 +1,34 @@
+[tool.poetry]
+name = "mypy_typing_asserts"
+version = "0.1.0"
+description = "Adds the ability to _assert_ types when typechecking to mypy"
+authors = ["Joshua Cannon <joshdcannon@gmail.com>"]
+readme = "README.md"
+homepage = "https://github.com/thejcannon/mypy-typing-asserts"
+repository = "https://github.com/thejcannon/mypy-typing-asserts"
+keywords = ["mypy"]
+classifiers = [
+    "Typing :: Typed"
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.5"
+black = "^22.1.0"
+mypy = "^0.931"
+virtualenv = "^20.13.1"
+isort = "^5.10.1"
+
+[tool.isort]
+extend_skip = ".pytest_cache"
+profile = "black"
+
+[tool.mypy]
+# This can be useful for local debugging
+plugins = "mypy_typing_asserts.mypy_plugin"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
