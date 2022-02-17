@@ -20,7 +20,7 @@ def _typename(type_: mypy.types.Type) -> str:
 def callback(ctx: FunctionContext) -> mypy.types.Type:
     deduced_return_type = ctx.default_return_type
     assert isinstance(deduced_return_type, mypy.types.Instance)
-    return_type: mypy.types.Type | None = deduced_return_type.args[0]
+    return_type = deduced_return_type.args[0]
     if isinstance(return_type, mypy.types.UninhabitedType):
         ctx.api.fail("You must provide a type parameter to 'assert_type'", ctx.context)
     else:
