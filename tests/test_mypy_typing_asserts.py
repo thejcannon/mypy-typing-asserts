@@ -4,7 +4,7 @@ import subprocess
 import sys
 import textwrap
 from pathlib import PurePath
-from typing import Dict
+from typing import Dict, Literal
 
 import pytest  # type: ignore
 
@@ -125,13 +125,15 @@ def test_returns_the_arg() -> None:
     def returns_int() -> int:
         return random.randint(0, 10)
 
+    intvar: int = 1
+
     assert mypy_typing_asserts.assert_type[None](None) is None
-    assert mypy_typing_asserts.assert_type[int](1) == 1
+    assert mypy_typing_asserts.assert_type[int](intvar) == 1
     assert isinstance(mypy_typing_asserts.assert_type[int](returns_int()), int)
 
     # This tests that our plugin also coerces the return type, otherwise we'd hit
     # https://github.com/python/mypy/issues/1020
     assert (
-        mypy_typing_asserts.assert_type[int](mypy_typing_asserts.assert_type[int](1))
+        mypy_typing_asserts.assert_type[int](mypy_typing_asserts.assert_type[int](intvar))
         == 1
     )
