@@ -4,7 +4,7 @@ import subprocess
 import sys
 import textwrap
 from pathlib import PurePath
-from typing import Dict, Literal
+from typing import Dict
 
 import pytest  # type: ignore
 
