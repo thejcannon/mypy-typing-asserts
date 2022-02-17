@@ -21,6 +21,7 @@ jobs:
       with:
         path: ~/.cache/pypoetry/virtualenvs
         key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
+    - run: poetry install
     - run: poetry run black --check --diff .
     - run: poetry run isort --check .
     - run: poetry run mypy .
