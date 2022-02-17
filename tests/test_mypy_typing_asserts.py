@@ -134,6 +134,8 @@ def test_returns_the_arg() -> None:
     # This tests that our plugin also coerces the return type, otherwise we'd hit
     # https://github.com/python/mypy/issues/1020
     assert (
-        mypy_typing_asserts.assert_type[int](mypy_typing_asserts.assert_type[int](intvar))
+        mypy_typing_asserts.assert_type[int](
+            mypy_typing_asserts.assert_type[int](intvar)
+        )
         == 1
     )
