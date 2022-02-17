@@ -45,7 +45,5 @@ class CustomPlugin(Plugin):
         return None
 
 
-def plugin(version: str) -> Optional[Type[Plugin]]:
-    if not float(version) > 0.7:
-        return None
+def plugin(version: str) -> Type[Plugin]:
     return CustomPlugin
