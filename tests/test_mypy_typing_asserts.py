@@ -4,6 +4,7 @@ import subprocess
 import sys
 import textwrap
 from pathlib import PurePath
+from typing import Dict
 
 import pytest  # type: ignore
 
@@ -54,19 +55,23 @@ def test_works_with_mypy(venv_bin, tmp_path, mypy_version, highest_py_version) -
     (tmp_path / "badfile.py").write_text(
         textwrap.dedent(
             """\
-            from typing import Any
+            from typing import Any, Dict
             from mypy_typing_asserts import assert_type
 
+            int_var: int = 1
+            stringdict_var: Dict[str, str] = {}
+
             assert_type(1)
-            assert_type[float](1)
-            assert_type[Any](1)
+            assert_type[float](int_var)
+            assert_type[Any](int_var)
+            assert_type[Dict](stringdict_var)
         """
         )
     )
     (tmp_path / "goodfile.py").write_text(
         textwrap.dedent(
             """\
-            from typing import Any
+            from typing import Any, Dict
             from mypy_typing_asserts import assert_type
 
             def untyped_func():
@@ -74,11 +79,16 @@ def test_works_with_mypy(venv_bin, tmp_path, mypy_version, highest_py_version) -
 
             anyvar: Any = None
 
-            assert_type[int](1)
-            assert_type[float](1.0)
+            int_var: int = 0
+            float_var: float = 1.0
+            stringdict_var: Dict[str, str] = {}
+
+            assert_type[int](int_var)
+            assert_type[float](float_var)
             assert_type[None](None)
             assert_type[Any](untyped_func())
             assert_type[Any](anyvar)
+            assert_type[Dict[str, str]](stringdict_var)
         """
         )
     )
@@ -94,16 +104,20 @@ def test_works_with_mypy(venv_bin, tmp_path, mypy_version, highest_py_version) -
     assert "INTERNAL ERROR" not in output
     assert "goodfile.py" not in output
     assert (
-        f"badfile.py:4: error: You must provide a type parameter to 'assert_type'"
+        "badfile.py:7: error: You must provide a type parameter to 'assert_type'"
         in output_lines[0]
     )
     assert (
-        f"badfile.py:5: error: assert_type failed. expected: 'builtins.float', actual 'builtins.int'"
+        "badfile.py:8: error: assert_type failed. expected: 'builtins.float*', actual 'builtins.int'"
         in output_lines[1]
     )
     assert (
-        f"badfile.py:6: error: assert_type failed. expected: 'Any', actual 'builtins.int'"
+        "badfile.py:9: error: assert_type failed. expected: 'Any', actual 'builtins.int'"
         in output_lines[2]
+    )
+    assert (
+        "badfile.py:10: error: assert_type failed. expected: 'builtins.dict*[Any, Any]', actual 'builtins.dict[builtins.str, builtins.str]"
+        in output_lines[3]
     )
 
 
